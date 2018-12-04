@@ -1,5 +1,6 @@
 from game2048.game import Game
 from game2048.displays import Display
+from CNN import Net
 
 
 def single_run(size, score_to_win, AgentClass, **kwargs):
@@ -16,7 +17,10 @@ if __name__ == '__main__':
 
     '''====================
     Use your own agent here.'''
-    from game2048.agents import ExpectiMaxAgent as TestAgent
+    # from game2048.agents import ExpectiMaxAgent as TestAgent
+    # from game2048.agents import SVM_clf as TestAgent
+    # from game2048.agents import RandomAgent as TestAgent
+    from game2048.agents import CNN as TestAgent
     '''===================='''
 
     scores = []
