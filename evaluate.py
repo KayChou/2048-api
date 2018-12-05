@@ -1,6 +1,6 @@
 from game2048.game import Game
 from game2048.displays import Display
-from CNN import Net
+from main import Net
 
 
 def single_run(size, score_to_win, AgentClass, **kwargs):
