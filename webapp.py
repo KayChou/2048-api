@@ -31,7 +31,7 @@ if __name__ == "__main__":
     GAME_SIZE = 4
     SCORE_TO_WIN = 2048
     APP_PORT = 5005
-    APP_HOST = "0.0.0.0"
+    APP_HOST = "localhost"
 
     from game2048.game import Game
     game = Game(size=GAME_SIZE, score_to_win=SCORE_TO_WIN)

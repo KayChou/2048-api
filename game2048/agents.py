@@ -91,7 +91,7 @@ class CNN(Agent):
         path = os.getcwd()
         model_path = path + '/Dataset/model.pth'
         print("Loading Model:")
-        model = torch.load(model_path)
+        model = torch.load(model_path, map_location='cpu')
         print("Model Loaded")
 
         self.search_func = model
@@ -106,9 +106,9 @@ class CNN(Agent):
         board = board/11.0
 
         board = transforms.ToTensor()(board)
-        board = transforms.Normalize((0.5,), (0.3081,))(board)
+        # board = transforms.Normalize((0.5,), (0.3081,))(board)
         board = torch.unsqueeze(board, dim=0).float()
-        board = board.repeat(2, 1, 1, 1)
+        board = board.repeat(1, 1, 1, 1)
         return board
 
     def get_direction(self, model_output):
