@@ -8,14 +8,14 @@ from torchvision import transforms
 from torch.autograd import Variable
 import time
 
-batch_size = 640
-conv0_out = 16
+batch_size = 64
+conv0_out = 1
 conv1_out = 64
-conv2_out = 128
-conv3_out = 256
-conv4_out = 128
-conv5_out = 64
-conv6_out = 32
+conv2_out = 256
+conv3_out = 512
+conv4_out = 256
+conv5_out = 128
+conv6_out = 64
 
 fc1_num = 16
 fc2_num = 16
@@ -26,37 +26,24 @@ class Net(nn.Module):
 		self.conv0 = nn.Conv2d(in_channels=1, out_channels=conv0_out, kernel_size=[1, 1])
 		self.conv1 = nn.Conv2d(in_channels=conv0_out, out_channels=conv1_out, kernel_size=[1, 2])
 		self.conv2 = nn.Conv2d(in_channels=conv1_out, out_channels=conv2_out, kernel_size=[2, 1])
-		self.conv20= nn.Conv2d(in_channels=conv2_out, out_channels=conv2_out, kernel_size=[1, 1])
-
 		self.conv3 = nn.Conv2d(in_channels=conv2_out, out_channels=conv3_out, kernel_size=[1, 2])
 		self.conv4 = nn.Conv2d(in_channels=conv3_out, out_channels=conv4_out, kernel_size=[2, 1])
-		self.conv40= nn.Conv2d(in_channels=conv4_out, out_channels=conv4_out, kernel_size=[1, 1])
-
 		self.conv5 = nn.Conv2d(in_channels=conv4_out, out_channels=conv5_out, kernel_size=[1, 2])
 		self.conv6 = nn.Conv2d(in_channels=conv5_out, out_channels=conv6_out, kernel_size=[2, 1])
-		self.conv60= nn.Conv2d(in_channels=conv6_out, out_channels=conv6_out, kernel_size=[1, 1])
 
 		self.drop = nn.Dropout2d(p=0.2)
 		self.fc1 = nn.Linear(conv6_out, fc1_num)
 		self.fc2 = nn.Linear(fc1_num, 4)
 
 	def forward(self, x):
-		x = F.relu(self.conv0(x))
+		# x = F.relu(self.conv0(x))
 		x = F.relu(self.conv1(x))
 		x = F.relu(self.conv2(x))
-		x = F.relu(self.conv20(x))
-		x = self.drop(x)
-
 		x = F.relu(self.conv3(x))
 		x = F.relu(self.conv4(x))
-		x = F.relu(self.conv40(x))
-		x = self.drop(x)
-
 		x = F.relu(self.conv5(x))
 		x = F.relu(self.conv6(x))
 		x = x.view(-1, conv6_out)
-		x = self.drop(x)
-
 		x = F.relu(self.fc1(x))
 		x = self.fc2(x)
 		return F.log_softmax(x)
@@ -107,7 +94,7 @@ def train(model, epoch, train_loader, optimizer):
 		loss.backward()
 		optimizer.step()
 		
-		if idx % 10 == 0:
+		if idx % 50 == 0:
 			print('Train epoch: %d   Loss: %.3f    ' % (epoch+1, loss))
 			predict = output.data.max(1)[1]
 			num = predict.eq(target.data).sum()
@@ -124,7 +111,8 @@ def main():
 
 	train_loader, test_loader = load_data()
 
-	optimizer = optim.RMSprop(model.parameters(), lr=0.001)
+	# optimizer = optim.RMSprop(model.parameters(), lr=0.001)
+	optimizer = optim.Adam(model.parameters(), lr=0.001)
 	epochs = 20
 
 	for epoch in range(epochs):
