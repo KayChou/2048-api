@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from main import Net
 
 
 def get_flask_app(game, agent):
@@ -35,16 +36,20 @@ if __name__ == "__main__":
 
     from game2048.game import Game
     game = Game(size=GAME_SIZE, score_to_win=SCORE_TO_WIN)
-
+    '''
     try:
-        from game2048.agents import ExpectiMaxAgent
-        agent = ExpectiMaxAgent(game=game)
+        from game2048.agents import RNN as Agent
+        agent = Agent(game=game)
     except:
-        from game2048.agents import RandomAgent
+        from game2048.agents import ExpectiMaxAgent
         print("WARNING: Please compile the ExpectiMaxAgent first following the README.")
         print("WARNING: You are now using a RandomAgent.")
-        agent = RandomAgent(game=game)
-
+        agent = ExpectiMaxAgent(game=game)
+    '''
+    # from game2048.agents import RNN_rot as Agent
+    from game2048.agents import my_AI as Agent
+    agent = Agent(game=game)
+    
     print("Run the webapp at http://<any address for your local host>:%s/" % APP_PORT)    
     
     app = get_flask_app(game, agent)
