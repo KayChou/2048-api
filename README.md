@@ -1,7 +1,38 @@
 # 2048-api
 A 2048 game api for training supervised learning (imitation learning) or reinforcement learning agents
 
+## 代码存放路径
+
+- RNN网络模型结构和训练程序存放在当前路径下的main.py文件。
+- 数据预处理文件dataLoader.py中定义了自己的数据集类，main.py通过该文件读取数据集。由于数据集过大，所以未上传到网上。
+- 数据获取及存放为指定格式：./Dataset/iter_dump.py
+- 基于planning的算法存放在./plan/my_AI.py文件中
+
+## 运行程序：
+
+```python
+python evaluate.py  #默认为基于planning的做法。
+```
+
+如果需要查看基于RNN网络的训练模型结果：
+
+```python
+# 注释掉第30行
+from game2048.agents import my_AI as TestAgent
+# 取消第29行的注释
+from game2048.agents import RNN_rot as TestAgent
+```
+
+## 模型存放路径：
+
+- 模型共有两个：model.pth与model_back.pth，均存放在当前同级目录下。
+
+## 2048网页游戏截图图片
+
+![2048](2048.gif)
+
 # Code structure
+
 * [`game2048/`](game2048/): the main package.
     * [`game.py`](game2048/game.py): the core 2048 `Game` class.
     * [`agents.py`](game2048/agents.py): the `Agent` class with instances.
