@@ -15,7 +15,7 @@ if __name__ == '__main__':
     
     GAME_SIZE = 4
     SCORE_TO_WIN = 2048
-    N_TESTS = 5
+    N_TESTS = 50
 
     '''====================
     Use your own agent here.'''
